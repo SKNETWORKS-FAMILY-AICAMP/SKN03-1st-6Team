@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -119,7 +118,7 @@ column2 = data[1::2]
 df = pd.DataFrame({'질문': column1, '답변': column2})
 
 # CSV 파일로 저장
-df.to_csv('output.csv', index=False)
+df.to_csv('hyundai-output.csv', index=False)
 
 # 브라우저 닫기
 driver.quit()
