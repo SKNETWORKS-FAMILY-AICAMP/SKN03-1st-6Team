@@ -79,12 +79,6 @@ next_button_xpath = '//*[@id="app"]/div[3]/section/div[2]/div/div[2]/section/div
 # 페이지 로드 대기
 driver.implicitly_wait(5)
 
-# BeautifulSoup을 사용하여 페이지 파싱
-soup = BeautifulSoup(driver.page_source, 'html.parser')
-
-# soup 내용을 HTML 파일로 저장
-with open("faq_page.html", "w", encoding="utf-8") as file:
-    file.write(str(soup))
 
 scroll_down()
 time.sleep(3)
