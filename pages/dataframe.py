@@ -24,44 +24,64 @@ sql="""
         *
     from city
     where 1=1
-    and (region = '인천' or region='합계')
+    and (region = '인천' or region='합계'or region ='서울')
     ;
 """
 df=conn.query(sql,ttl=3600)
 st.dataframe(df)
 
-st.text([  f for f in df.values[0][1:]])
+st.text([  f for f in df.values[1][1:]])
+total_data = [f for f in df.values[0][1:]]
 
-options1 = {
-    "title": {"text": "자동차 등록현황"},
-    "tooltip": {"trigger": "axis"},
-    "legend": {"data": ["지역", "전체", "视频广告", "直接访问", "搜索引擎"]},
-    "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
-    "toolbox": {"feature": {"saveAsImage": {}}},
+option = {
     "xAxis": {
         "type": "category",
-        "boundaryGap": False,
-        "data": [  f for f in df.columns[1:]],
+        "data": [f for f in df.columns[1:]],
     },
     "yAxis": {"type": "value"},
     "series": [
-        {
-            "name": "지역",
-            "type": "line",
-            "stack": "总量",
-            "data": [2000,2000,2000,2000,], #  f for f in df.values[1][1:]
-        },
-        {
-            "name": "전체",
-            "type": "line",
-            "stack": "总量",
-            "data": [ f for f in df.values[0][1:] ],
-        },
-    ],
+        {"data": [f for f in df.values[2][1:]], "type": "line"},
+        {"data": [f for f in df.values[1][1:]], "type": "line"}
+                ],
 }
+st_echarts(
+    options=option, height="400px",
+)
 
 
-st_echarts(options=options1, height="400px")
+
+
+
+# options1 = {
+#     "title": {"text": "자동차 등록현황"},
+#     "tooltip": {"trigger": "axis"},
+#     "legend": {"data": ["지역", "전체", "视频广告", "直接访问", "搜索引擎"]},
+#     "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
+#     "toolbox": {"feature": {"saveAsImage": {}}},
+#     "xAxis": {
+#         "type": "category",
+#         "boundaryGap": False,
+#         "data": [  f for f in df.columns[1:]],
+#     },
+#     "yAxis": {"type": "value"},
+#     "series": [
+#         {
+#             "name": "지역",
+#             "type": "line",
+#             "stack": "总量",
+#             "data": [ f for f in df.values[1][1:]], #  f for f in df.values[1][1:]
+#         },
+#         {
+#             "name": "전체",
+#             "type": "line",
+#             "stack": "总量",
+#             "data": [ i for i in df.values[0][1:] ],
+#         },  
+#     ],
+# }
+
+
+# st_echarts(options=options1, height="400px")
 
 
 

@@ -132,13 +132,14 @@ if add_selectbox=="서울" and add_radio=="Line chart":
     st.subheader("selectbox")
     st.header(add_selectbox)
     st_echarts(options=options1, height="400px")
+    st.page_link("./home.py", label="Home", icon="🏠")
 
 
 if add_selectbox=="인천" and add_radio=="Line chart":
     st.subheader("radio")
     st.header(add_radio)
     st_echarts(options=options2, height="400px")
+    st.page_link("./home.py", label="Home", icon="🏠")
 
 
-# st_echarts(options=options, height="400px")
 
