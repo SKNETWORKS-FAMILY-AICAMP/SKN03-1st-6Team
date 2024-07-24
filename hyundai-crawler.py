@@ -16,6 +16,7 @@ def check_last_button():
             print(result)
             return  result
         except:
+            print(f"{num}페이지가 존재하지 않습니다.")
             continue
     return False
 
@@ -98,14 +99,6 @@ def click_page_num(num):
         return
     return
 
-def print_content(content_css_selector):
-    try:
-        element = driver.find_element(By.CSS_SELECTOR, content_css_selector).text
-        data.append(element)
-        print(element)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    except Exception as e:
-        print(f"Error: {e}")
-    return
 
 def print_titles():
     class_name = "list-content"
@@ -114,7 +107,8 @@ def print_titles():
     num = 0
     for i in titles:
         title = i.text
-        data.append(title)
+        col1.append(cate_css)
+        col2.append(title)
         print(title)
         num += 1
         title_css_selector = f"#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.list-wrap > div:nth-child({num}) > button > div > span.list-content"
@@ -124,6 +118,16 @@ def print_titles():
     time.sleep(0.1)
     print("############ ")
     return
+
+def print_content(content_css_selector):
+    try:
+        element = driver.find_element(By.CSS_SELECTOR, content_css_selector).text
+        col3.append(element)
+        print(element)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    except Exception as e:
+        print(f"Error: {e}")
+    return
+
 
 def scroll_move(scroll_len):
     # 현재 스크롤 좌표 추출
@@ -136,6 +140,10 @@ def scroll_move(scroll_len):
 
 # 데이터 저장을 위한 리스트 초기화
 data = []
+
+col1 = []
+col2 = []
+col3 = []
 
 # Selenium 설정
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -155,13 +163,18 @@ driver.implicitly_wait(5)
 scroll_move(1150)
 time.sleep(2)
 
+
+cate_css_first = "#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li.tab-menu__icon.active > button > span"
+cate_css_first_text = driver.find_element(By.CSS_SELECTOR, cate_css_first).text
 last_page_num = int(check_last_button())
+
+cate_css = cate_css_first_text
 get_faq(last_page_num)
 
-#원래 range안의 값은 2
 for i in range(2,10):
     num = i
     cate_css = f"#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li:nth-child({num}) > button"
+    cate_css_text = driver.find_element(By.CSS_SELECTOR, cate_css).text
 
     scroll_move(-300)
     time.sleep(1)
@@ -169,6 +182,21 @@ for i in range(2,10):
         driver.find_element(By.CSS_SELECTOR, cate_css).click()
     except:
         print("요소가 존재하지 않습니다.")
+    
+    # 8번째 카테고리에서 버그가 있어서 9번째 카테고리를 클릭
+    if num == 8:
+        try:
+            num = 9
+            cate_css_temp = f"#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li:nth-child({num}) > button"
+            driver.find_element(By.CSS_SELECTOR, cate_css_temp).click()
+            time.sleep(1)
+            num = 8
+            cate_css_temp = f"#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li:nth-child({num}) > button"
+            driver.find_element(By.CSS_SELECTOR, cate_css_temp).click()
+            time.sleep(1)
+        except:
+            print("요소가 존재하지 않습니다.")
+
     scroll_move(300)
     time.sleep(0.5)
     
@@ -180,20 +208,16 @@ for i in range(2,10):
         print("페이지가 첫페이지 입니다.")
 
     last_page_num = int(check_last_button())
+
+    cate_css = cate_css_text
     get_faq(last_page_num)
 
-# 데이터를 두 개의 열로 나누기
-# 예를 들어, 짝수 인덱스는 'Column1', 홀수 인덱스는 'Column2'로 나누기
-column1 = data[::2]
-column2 = data[1::2]
 
 # 데이터프레임으로 변환
-df = pd.DataFrame({'질문': column1, '답변': column2})
+df = pd.DataFrame({'카테고리': col1, '질문': col2,'답변': col3 })
 
 # CSV 파일로 저장
 df.to_csv('hyundai-output.csv', index=False)
-
-time.sleep(3000)
 
 # 브라우저 닫기
 driver.quit()
