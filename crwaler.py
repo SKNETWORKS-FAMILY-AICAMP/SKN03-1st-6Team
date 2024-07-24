@@ -1,30 +1,12 @@
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
+import pandas as pd
 import time
 
-
-def click_title(title_css_selector):
-    try:
-        element = driver.find_element(By.CSS_SELECTOR, title_css_selector)
-        element.click()
-        print("Element clicked successfully")
-        time.sleep(0.1)
-    except Exception as e:
-        print(f"Error: {e}")
-    return
-
-def print_content(content_css_selector):
-    try:
-        element = driver.find_element(By.CSS_SELECTOR, content_css_selector).text
-        print(element)
-    except Exception as e:
-        print(f"Error: {e}")
-    return
 
 # 특정 요소가 있는지 확인하는 함수
 def check_element_exists(by, value):
@@ -34,6 +16,24 @@ def check_element_exists(by, value):
     except NoSuchElementException:
         return False
     
+def click_title(title_css_selector):
+    try:
+        element = driver.find_element(By.CSS_SELECTOR, title_css_selector)
+        element.click()
+        time.sleep(0.05)
+    except Exception as e:
+        print(f"Error: {e}")
+    return
+
+def print_content(content_css_selector):
+    try:
+        element = driver.find_element(By.CSS_SELECTOR, content_css_selector).text
+        data.append(element)
+        print(element)
+    except Exception as e:
+        print(f"Error: {e}")
+    return
+
 def print_titles():
     class_name = "list-content"
     content_css_selector = "#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.list-wrap > div > div > div"
@@ -41,13 +41,14 @@ def print_titles():
     num = 0
     for i in titles:
         title = i.text
+        data.append(title)
         print(title)
         num += 1
         title_css_selector = f"#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.list-wrap > div:nth-child({num}) > button > div > span.list-content"
         click_title(title_css_selector)
         print_content(content_css_selector)
         click_title(title_css_selector)
-    time.sleep(1)
+    time.sleep(0.1)
     print("############ ")
     return
 
@@ -60,6 +61,8 @@ def scroll_down():
     # 스크롤 후 대기
     
 
+# 데이터 저장을 위한 리스트 초기화
+data = []
 
 # Selenium 설정
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -87,37 +90,42 @@ scroll_down()
 time.sleep(3)
 print_titles()
 
-
-while True:
-    #xpath를 이용한 click
-    for _ in range(3):
-        driver.find_element(By.XPATH, next_button_xpath).click()
-        time.sleep(0.1)
-        print_titles()
-
-    #xpath 3회 이후, 5, 5, 6, 7을 셀렉터로 클릭해야함. 
-    css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(5) > button'
-    driver.find_element(By.CSS_SELECTOR, css_selector).click()
+for _ in range(3):
+    driver.find_element(By.XPATH, next_button_xpath).click()
     time.sleep(0.1)
     print_titles()
 
-    css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(5) > button'
-    driver.find_element(By.CSS_SELECTOR, css_selector).click()
-    time.sleep(0.1)
-    print_titles()
+#xpath 3회 이후, 5, 5, 6, 7을 셀렉터로 클릭해야함. 
+css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(5) > button'
+driver.find_element(By.CSS_SELECTOR, css_selector).click()
+time.sleep(0.1)
+print_titles()
 
-    css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(6) > button'
-    driver.find_element(By.CSS_SELECTOR, css_selector).click()
-    time.sleep(0.1)
-    print_titles()
+css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(5) > button'
+driver.find_element(By.CSS_SELECTOR, css_selector).click()
+time.sleep(0.1)
+print_titles()
 
-    css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(7) > button'
-    driver.find_element(By.CSS_SELECTOR, css_selector).click()
-    time.sleep(0.1)
-    print_titles()
+css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(6) > button'
+driver.find_element(By.CSS_SELECTOR, css_selector).click()
+time.sleep(0.1)
+print_titles()
 
-    
-    time.sleep(200)
+css_selector = '#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.pagenation.pagenation > div > ul > li:nth-child(7) > button'
+driver.find_element(By.CSS_SELECTOR, css_selector).click()
+time.sleep(0.1)
+print_titles()
+
+# 데이터를 두 개의 열로 나누기
+# 예를 들어, 짝수 인덱스는 'Column1', 홀수 인덱스는 'Column2'로 나누기
+column1 = data[::2]
+column2 = data[1::2]
+
+# 데이터프레임으로 변환
+df = pd.DataFrame({'질문': column1, '답변': column2})
+
+# CSV 파일로 저장
+df.to_csv('output.csv', index=False)
 
 # 브라우저 닫기
 driver.quit()
