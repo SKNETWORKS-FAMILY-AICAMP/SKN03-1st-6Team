@@ -141,5 +141,91 @@ if add_selectbox=="인천" and add_radio=="Line chart":
     st_echarts(options=options2, height="400px")
     st.page_link("./home.py", label="Home", icon="🏠")
 
+# if add_selectbox=="서울" and add_radio=="Line chart":
+#     st.subheader("selectbox")
+#     st.header(add_selectbox)
+#     st_echarts(options=options1, height="400px")
+#     st.page_link("./home.py", label="Home", icon="🏠")
 
+
+# if add_selectbox=="인천" and add_radio=="Line chart":
+#     st.subheader("radio")
+#     st.header(add_radio)
+#     st_echarts(options=options2, height="400px")
+#     st.page_link("./home.py", label="Home", icon="🏠")
+
+
+# # Using object notation
+# add_selectbox = st.sidebar.selectbox(
+#     "지역을 선택?", (
+#         '합계'
+#         ,'서울'
+#         ,'부산'
+#         ,'대구'
+#         ,'인천'
+#         ,'광주'
+#         ,'대전'
+#         ,'울산'
+#         ,'세종'
+#         ,'경기'
+#         ,'강원'
+#         ,'충북'
+#         ,'충남'
+#         ,'전북'
+#         ,'전남'
+#         ,'경북'
+#         ,'경남'
+#         ,'제주')
+# )
+
+# # Using "with" notation
+# with st.sidebar:
+#     add_radio = st.radio(
+#         "Graph Type  ", ("Line chart", "Bar graph")
+#     )
+
+
+
+
+# if add_selectbox=="서울" and add_radio=="Line chart":
+#     st.subheader("selectbox")
+#     st.header(add_selectbox)
+#     st_echarts(options=options1, height="400px")
+#     st.page_link("./home.py", label="Home", icon="🏠")
+
+
+# if add_selectbox=="인천" and add_radio=="Line chart":
+#     st.subheader("radio")
+#     st.header(add_radio)
+#     st_echarts(options=options2, height="400px")
+#     st.page_link("./home.py", label="Home", icon="🏠")
+
+
+# #사이드바에 그래프 타입 선택
+# with st.sidebar:
+#     add_radio = st.radio(
+#         "Graph Type  ", ("Line chart", "Bar graph")
+#     )
+
+
+
+
+
+# st.title('Dataframe')
+# st.dataframe(
+#     df,
+#     column_config={
+#         "name": "App name",
+#         "stars": st.column_config.NumberColumn(
+#             "Github Stars",
+#             help="Number of stars on GitHub",
+#             format="%d ⭐",
+#         ),
+#         "url": st.column_config.LinkColumn("App URL"),
+#         "views_history": st.column_config.LineChartColumn(
+#             "Views (past 30 days)", y_min=0, y_max=5000
+#         ),
+#     },
+#     hide_index=True,
+# )
 
