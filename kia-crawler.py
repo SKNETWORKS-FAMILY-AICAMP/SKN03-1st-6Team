@@ -11,6 +11,15 @@ import pandas as pd
 import time
 
 
+def scroll_move(scroll_len):
+    # 현재 스크롤 좌표 추출
+    current_scroll_position = driver.execute_script("return window.pageYOffset")
+    print(f"Current scroll position: {current_scroll_position}")
+    # 지정 좌표로 스크롤 이동
+    driver.execute_script(f"window.scrollTo(0, {current_scroll_position + scroll_len})")
+    # 스크롤 후 대기
+
+
 # 특정 요소가 있는지 확인하는 함수
 def check_element_exists(by, value):
     try:
@@ -44,26 +53,18 @@ def print_titles():
     # result = check_element_exists(By.CLASS_NAME, faq_a_class_name)
     faq_a_list = driver.find_elements(By.CLASS_NAME, faq_a_class_name)
 
-
-    print(type(titles))
-
     num = 0
     for i in titles:
+        i.click()
+        time.sleep(0.05)
         title = i.text
-        data.append(title)
+        col1.append(title)
         print(title)
-        
-        
-        faq_a_class_selector = "#container-619af8ccc1"
-        element = driver.find_element(By.CSS_SELECTOR, faq_a_class_selector).text
-        print(element)
-        print(type(element))
-
         num += 1
-
+    
     for i in faq_a_list:
         faq_a = i.text
-        data.append(faq_a)
+        col2.append(faq_a)
         print(faq_a)
         num += 1
 
@@ -82,6 +83,9 @@ def scroll_down(scroll_len):
 
 # 데이터 저장을 위한 리스트 초기화
 data = []
+
+col1 = []
+col2 = []
 
 # Selenium 설정
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -109,6 +113,13 @@ except Exception as e:
 scroll_down(500)
 
 print_titles()
+
+
+# 데이터프레임으로 변환
+df = pd.DataFrame({'질문': col1,'답변': col2 })
+
+# CSV 파일로 저장
+df.to_csv('kia-output.csv', index=False)
 
 time.sleep(300)
 

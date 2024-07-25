@@ -163,7 +163,6 @@ driver.implicitly_wait(5)
 scroll_move(1150)
 time.sleep(2)
 
-
 cate_css_first = "#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li.tab-menu__icon.active > button > span"
 cate_css_first_text = driver.find_element(By.CSS_SELECTOR, cate_css_first).text
 last_page_num = int(check_last_button())
