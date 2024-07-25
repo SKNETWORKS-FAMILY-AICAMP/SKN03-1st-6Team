@@ -104,6 +104,7 @@ def print_titles():
     class_name = "list-content"
     content_css_selector = "#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(3) > div.list-wrap > div > div > div"
     titles = driver.find_elements(By.CLASS_NAME, class_name)
+
     num = 0
     for i in titles:
         title = i.text
@@ -166,6 +167,8 @@ time.sleep(2)
 cate_css_first = "#app > div.contant-area > section > div.l-container-body > div > div.l-contents-mid > section > div > div:nth-child(1) > div.tab-menu > ul > li.tab-menu__icon.active > button > span"
 cate_css_first_text = driver.find_element(By.CSS_SELECTOR, cate_css_first).text
 last_page_num = int(check_last_button())
+
+time.sleep(3400)
 
 cate_css = cate_css_first_text
 get_faq(last_page_num)

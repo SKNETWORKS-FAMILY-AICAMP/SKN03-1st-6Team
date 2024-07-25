@@ -50,7 +50,6 @@ def print_titles():
     faq_q_class_name = "cmp-accordion__title"
     faq_a_class_name = "faqinner__wrap"
     titles = driver.find_elements(By.CLASS_NAME, faq_q_class_name)
-    # result = check_element_exists(By.CLASS_NAME, faq_a_class_name)
     faq_a_list = driver.find_elements(By.CLASS_NAME, faq_a_class_name)
 
     num = 0
